@@ -9,8 +9,8 @@ for(const exhibit of assetCatalog)test(`${exhibit.slug}: 実物の範囲・単�
  const inventory=await page.locator('iframe').evaluate((f:any)=>{const w=f.contentWindow,names:string[]=[];w.__scene.scene.traverse((o:any)=>{if(o.isMesh&&o.parent.name!=='asset-inspection')names.push(o.name)});return {names,captures:Object.keys(w.__assetRecords||{}),visible:w.__scene.scene.getObjectByName('asset-inspection').children.map((o:any)=>({name:o.name,count:o.isInstancedMesh?o.count:1}))}});
  for(const o of exhibit.objects)expect(o.capture?inventory.captures.includes(o.id):o.names!.some(n=>inventory.names.includes(n)),o.id).toBe(true);
  const inspected=await page.locator('iframe').evaluate((f:any,kinds)=>{const w=f.contentWindow;const results=kinds.map(kind=>{const selected=w.__showAsset(kind);return {id:kind.id,size:selected.size,parts:selected.parts};});w.__showAsset(kinds[0]);return results;},exhibit.objects);
- for(const item of inspected){expect(item.parts,item.id).toBeGreaterThan(0);expect(item.size.every(n=>Number.isFinite(n)&&n>0),item.id).toBe(true);}
- expect(inventory.visible.length).toBeGreaterThan(0);if(!exhibit.objects[0]!.capture)expect(inventory.visible.every(o=>o.count===1)).toBe(true);
+ for(const item of inspected){expect(item.parts,item.id).toBeGreaterThan(0);expect(item.size.every((n:number)=>Number.isFinite(n)&&n>0),item.id).toBe(true);}
+ expect(inventory.visible.length).toBeGreaterThan(0);if(!exhibit.objects[0]!.capture)expect(inventory.visible.every((o:{count:number})=>o.count===1)).toBe(true);
  await expect(page.locator('.asset-dimensions')).not.toContainText('NaN');
  expect(errors).toEqual([]);await page.waitForTimeout(200);
  await page.screenshot({path:`${evidence}/${exhibit.slug}-pc.png`,fullPage:true});

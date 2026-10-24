@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { shouldNoindex, withNoindexMeta } from '../../shared/indexing.ts';
-import { tagStaticHtml } from '../../scripts/noindex-static.ts';
+import { shouldNoindex, withNoindexMeta } from '../../shared/indexing';
+import { tagStaticHtml } from '../../scripts/noindex-static';
 test('Layerの一覧とホストは除外し、Layerの子ルートだけnoindex',()=>{
   for(const p of ['/','/?campaign=x','/about','/404','/index.html','/ja/hakoniwa','/ja/hakoniwa/','/ja/hakoniwa/?campaign=x','/ja/hakoniwa/index.html','/ja/hakoniwa-other/page'])assert.equal(shouldNoindex(p),false,p);
   for(const p of ['/ja/hakoniwa/dev/assets','/ja/hakoniwa/new-world','/ja/hakoniwa/404','/ja/hakoniwa/exhibits/new/index.html','/ja/hakoniwa/future?q=x'])assert.equal(shouldNoindex(p),true,p);

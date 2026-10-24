@@ -6,6 +6,22 @@
 
 Nuxt `^3.14.1592 || ^4.0.0`、Vue `^3.5.13`、ビルドには Node 20.19 以降（hirameki.dev のCIと同じ Node 22を推奨）を使用します。生成済みNitroサーバーにVite/Three.js/kitのビルド依存は入りません。Node 20の本番ランタイムを変更するための設定は追加しません。ホスト側の `app.baseURL` は `/` を前提にしています。`/ja/hakoniwa/` はアプリ全体の baseURL ではなく、この Layer が所有するルートです。
 
+既存のnpm lockfileとCIに組み込む場合は、Git依存をコミットSHAで固定する方法を推奨します。
+
+```sh
+npm install --save-exact --install-links 'git+https://github.com/sakutakajp/hakoniwa.git#<確認済みのコミットSHA>'
+```
+
+```ts
+export default defineNuxtConfig({
+  extends: ['@sakutakajp/hakoniwa'],
+})
+```
+
+この方法はnpmの `files` 一覧で必要なLayerファイルだけをインストールし、ホストの `npm ci --install-links` で再現できます。GitHubのアーカイブAPIではなく、許可されたGit接続が使える環境にも対応します。既存依存のバージョンは維持し、追加したLayerと必要な依存だけをlockfileに記録してください。
+
+GitHub source archiveを直接 extends する場合は次の設定も使用できます（アーカイブAPIへの接続が必要）。
+
 ```ts
 // ホストの nuxt.config.ts。既存の設定は維持する。
 export default defineNuxtConfig({
@@ -70,6 +86,8 @@ Nitroは生成したファイルを `/ja/hakoniwa/exhibits/` として公開し�
 
 ## 開発・検証
 
+単独開発のNuxt型チェック設定は `tsconfig.dev.json` です。`npm run typecheck` がprepare後に明示的に読み込みます。source archiveのルートで自動検出される `tsconfig.json` から、存在しないLayer自身の `.nuxt` を参照しない構成です。消費側の型チェックから除くのはこのLayerの `tests/` だけで、ホストのテストや型設定は変更しません。
+
 ```sh
 npm ci
 npm run dev:prepare
@@ -86,6 +104,6 @@ npm run test:layer:http
 CHROMIUM_PATH=/usr/bin/chromium npm run test:layer
 ```
 
-`tests/fixtures/consumer` は Nuxt 3.14.1592 / Vue 3.5.13 / Nitro 2.10.4 / Vite 5.4.14 を固定し、別の app/layout/root/about/dev ページ・CSS・静的アセットを持つ消費側アプリです。`npm run build:consumer` はLayerをnpm tarball化してチェックアウト外の一時ディレクトリ（既定 `/tmp/hakoniwa-consumer-nuxt3`）へインストールし、その別プロジェクトをbuild/typecheckします。`LAYER_CONSUMER_DIR` で保存先を変更できます。生成物がインストール済みLayerへ混入しないことも確認します。HTTP/SSR検証はホストとLayerのルート、SEO、生成ファイルとJS依存を検査します。Playwright検証はホスト→一覧→ビューア→別ビューア→履歴→ホストの遷移、CSS/head復元、リクエスト分離、および実際のWebGL作品の操作・破棄を検査します。
+`tests/fixtures/consumer` は Nuxt 3.14.1592 / Vue 3.5.13 / Nitro 2.10.4 / Vite 5.4.14 を固定し、別の app/layout/root/about/dev ページ・CSS・静的アセットを持つ消費側アプリです。`npm run build:consumer` は既定でGitHub source archiveと同じ全追跡ファイルのクリーンな `git archive` を作り、Layerの `.nuxt` を一度も生成せずに別プロジェクトをprepare/build/typecheckします。開発テストや設定をnpmの `files` 一覧で隠さないため、リポジトリ配布固有の問題も検出します。`LAYER_PACKAGE_MODE=npm npm run build:consumer` ではnpm tarballのインストール経路も検証できます。消費側の既定ディレクトリは `/tmp/hakoniwa-consumer-nuxt3` です。`LAYER_CONSUMER_DIR` で保存先を変更できます。生成物がインストール済みLayerへ混入しないことも確認します。HTTP/SSR検証はホストとLayerのルート、SEO、生成ファイルとJS依存を検査します。Playwright検証はホスト→一覧→ビューア→別ビューア→履歴→ホストの遷移、CSS/head復元、リクエスト分離、および実際のWebGL作品の操作・破棄を検査します。
 
 既存の各Playwrightスイートも新URLへ更新済みです。GPU/Chromiumが利用できる環境で実行してください。ビルド成功やHTTP検証は、実機Safari・モバイルGPUの見た目/操作の検証を代替しません。

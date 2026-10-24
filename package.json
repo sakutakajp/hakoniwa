@@ -6,7 +6,7 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "nuxt prepare && vue-tsc --noEmit --project tsconfig.dev.json",
     "test:indexing": "node --import tsx --test tests/indexing/*.test.ts",
     "build:exhibits": "vite build --config exhibits/vite.config.ts",
     "typecheck:exhibits": "tsc --project exhibits/tsconfig.json",
