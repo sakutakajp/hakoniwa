@@ -1,0 +1,33 @@
+{
+  "name": "mirai-museum",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build:exhibits && nuxt dev --host 0.0.0.0",
+    "build": "npm run build:exhibits && nuxt build",
+    "generate": "npm run build:exhibits && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "test:indexing": "node --test tests/indexing/*.test.ts",
+    "build:exhibits": "vite build --config exhibits/vite.config.ts",
+    "typecheck:exhibits": "tsc --project exhibits/tsconfig.json",
+    "test:exhibits": "playwright test --config playwright.exhibits.config.ts"
+  },
+  "dependencies": {
+    "nuxt": "4.5.2",
+    "vue": "3.5.43",
+    "three": "0.186.1"
+  },
+  "engines": {
+    "node": "^22.19.0 || ^24.11.0 || >=26.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.2.6",
+    "@types/three": "0.186.0",
+    "vite": "8.3.2",
+    "@playwright/test": "1.58.2"
+  }
+}

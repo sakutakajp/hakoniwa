@@ -1,0 +1,7 @@
+M PLUS Rounded 1c Medium (500)
+Source: https://github.com/google/fonts/tree/main/ofl/mplusrounded1c
+Binary: MPLUSRounded1c-Medium.ttf
+Original SHA-256: adfde1b6bae58719c4e0144612a94232e72fc5ca655c4722165fe88d06521a70
+License: SIL Open Font License 1.1, recorded in the original font name table and METADATA.pb.
+Standard OFL body: https://github.com/google/fonts/blob/main/ofl/mplus1/OFL.txt
+Modification: WOFF subset for MIRAI MUSEUM and space, using FontTools; outlines unchanged.
