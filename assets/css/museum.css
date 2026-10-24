@@ -1,0 +1,405 @@
+@font-face {
+  font-family: 'Hakoniwa M PLUS Rounded 1c';
+  src: url('/ja/hakoniwa/fonts/m-plus-rounded-1c/brand-500.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+.hakoniwa-shell .brand-name {
+  font-family: 'Hakoniwa M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+.hakoniwa-shell {
+  min-height:100vh;
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  color:#493e33;
+  background:#faf6ef;
+  font-synthesis:none;
+}
+.hakoniwa-shell * {
+  box-sizing:border-box;
+}
+body.hakoniwa-page {
+  margin:0;
+}
+.hakoniwa-shell a {
+  color:inherit;
+  text-decoration:none;
+}
+.hakoniwa-shell button,.hakoniwa-shell a,.hakoniwa-shell summary {
+  -webkit-tap-highlight-color:transparent;
+}
+.hakoniwa-shell a:focus-visible,.hakoniwa-shell summary:focus-visible {
+  outline:2px solid #936c4a;
+  outline-offset:6px;
+}
+.hakoniwa-shell ::selection {
+  background:#e5d4bd;
+}
+.hakoniwa-shell .museum {
+  max-width:1800px;
+  margin:auto;
+}
+.hakoniwa-shell .masthead {
+  height:104px;
+  margin:0 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #ded6c9;
+}
+.hakoniwa-shell .brand {
+  font-family:Georgia,serif;
+  font-size:21px;
+  letter-spacing:.08em;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.hakoniwa-shell .brand .brand-subtitle {
+  font-family:sans-serif;
+  font-size:9px;
+  letter-spacing:.26em;
+}
+.hakoniwa-shell .edition,.hakoniwa-shell .eyebrow {
+  font-size:10px;
+  letter-spacing:.2em;
+  font-weight:500;
+}
+.hakoniwa-shell .edition {
+  color:#8c7c6b;
+}
+.hakoniwa-shell .collection {
+  padding:65px 5% 80px;
+}
+.hakoniwa-shell .intro {
+  position:relative;
+  margin-bottom:50px;
+}
+.hakoniwa-shell .intro .eyebrow {
+  color:#8b7158;
+  margin:0 0 23px;
+}
+.hakoniwa-shell .intro h1 {
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-weight:500;
+  font-size:clamp(34px,3.5vw,57px);
+  line-height:1.6;
+  letter-spacing:.08em;
+  margin:0;
+}
+.hakoniwa-shell .intro-copy {
+  position:absolute;
+  right:3%;
+  bottom:8px;
+  font-size:13px;
+  line-height:2.4;
+  letter-spacing:.05em;
+  color:#817464;
+}
+.hakoniwa-shell .mobile-break {
+  display:none;
+}
+.hakoniwa-shell .exhibit-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:38px 25px;
+}
+.hakoniwa-shell .card-image {
+  position:relative;
+  overflow:hidden;
+  border-radius:4px;
+  background:#fae8d4;
+  aspect-ratio:900/650;
+}
+.hakoniwa-shell .card-image img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s;
+}
+.hakoniwa-shell .exhibit-card:hover img {
+  transform:scale(1.035);
+}
+.hakoniwa-shell .card-number {
+  position:absolute;
+  top:17px;
+  left:18px;
+  font-size:11px;
+  font-family:Georgia,serif;
+  color:#7d624c;
+}
+.hakoniwa-shell .card-copy {
+  padding:20px 3px;
+}
+.hakoniwa-shell .card-copy .eyebrow {
+  margin:0 0 10px;
+  color:#947d63;
+  font-size:9px;
+}
+.hakoniwa-shell .card-copy h2 {
+  margin:0 0 9px;
+  font-family:"Yu Mincho",serif;
+  font-size:23px;
+  font-weight:500;
+  display:flex;
+  justify-content:space-between;
+}
+.hakoniwa-shell .card-copy h2 span {
+  font-size:19px;
+  color:#927e68;
+}
+.hakoniwa-shell .card-copy>p:last-child {
+  font-size:12px;
+  color:#8b7c6c;
+  margin:0;
+}
+.hakoniwa-shell .museum-footer {
+  margin:0 5%;
+  padding:26px 0 35px;
+  border-top:1px solid #ded6c9;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  color:#91816e;
+  letter-spacing:.07em;
+}
+.hakoniwa-shell .back-link {
+  font-size:12px;
+  color:#83715f;
+}
+.hakoniwa-shell .viewing-room .masthead {
+  height:87px;
+}
+.hakoniwa-shell .viewer-heading {
+  margin:32px 5% 23px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.hakoniwa-shell .viewer-heading .eyebrow {
+  color:#998069;
+  margin:0 0 12px;
+}
+.hakoniwa-shell .viewer-heading h1 {
+  font-family:"Yu Mincho",serif;
+  font-weight:500;
+  font-size:29px;
+  letter-spacing:.08em;
+  margin:0;
+}
+.hakoniwa-shell .viewer-heading h1 span {
+  font-size:17px;
+  margin-left:8px;
+  color:#91816e;
+}
+.hakoniwa-shell .viewer-heading>p {
+  font-size:12px;
+  color:#8e7c69;
+}
+.hakoniwa-shell .scene-stage {
+  position:relative;
+  margin:0 5%;
+  height: min(64vh,760px);
+  min-height:370px;
+  background:#fae8d4;
+  border-radius:5px;
+  overflow:hidden;
+}
+.hakoniwa-shell .scene-stage iframe {
+  border:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+.hakoniwa-shell .loading-note {
+  position:absolute;
+  inset:0;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  align-items:center;
+  background:#fae8d4;
+  color:#8a7056;
+  font-size:13px;
+  pointer-events:none;
+}
+.hakoniwa-shell .loading-note a {
+  pointer-events:auto;
+  text-decoration:underline;
+}
+.hakoniwa-shell .loading-dot {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#a98b69;
+  animation:hakoniwa-breathe 1.5s infinite alternate;
+}
+@keyframes hakoniwa-breathe {
+  to {
+    opacity:.3;
+  }
+}
+.hakoniwa-shell .viewer-caption {
+  margin:20px 5% 25px;
+  display:flex;
+  justify-content:space-between;
+  gap:40px;
+  color:#8b7c6c;
+  font-size:12px;
+  line-height:1.9;
+}
+.hakoniwa-shell .viewer-caption>p {
+  max-width:700px;
+  margin:0;
+}
+.hakoniwa-shell .viewer-caption details {
+  max-width:340px;
+  min-width:80px;
+}
+.hakoniwa-shell .viewer-caption summary {
+  cursor:pointer;
+  white-space:nowrap;
+}
+.hakoniwa-shell .world-nav {
+  display:flex;
+  justify-content:center;
+  margin:0 5% 35px;
+  border-top:1px solid #ded6c9;
+  padding-top:22px;
+  gap:9px;
+}
+.hakoniwa-shell .world-nav a {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 18px;
+  border-radius:3px;
+  font-size:12px;
+  color:#8e7e6d;
+}
+.hakoniwa-shell .world-nav a>span:first-child {
+  font-size:10px;
+  opacity:.7;
+}
+.hakoniwa-shell .world-nav a[aria-current=page] {
+  background:#ebe2d5;
+  color:#544635;
+}
+.hakoniwa-shell .current-dot {
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#9c7c55;
+}
+.hakoniwa-shell .world-nav a:hover {
+  background:#f1e9dc;
+}
+@media(min-width:1400px) {
+  .hakoniwa-shell .exhibit-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:850px) {
+  .hakoniwa-shell .intro-copy {
+    position:static;
+    margin-top:25px;
+  }
+  .hakoniwa-shell .exhibit-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .hakoniwa-shell .edition {
+    font-size:8px;
+  }
+  .hakoniwa-shell .world-nav {
+    flex-wrap:wrap;
+  }
+  .hakoniwa-shell .world-nav a {
+    padding:11px 12px;
+  }
+  .hakoniwa-shell .viewer-heading>p {
+    display:none;
+  }
+}
+@media(max-width:540px) {
+  .hakoniwa-shell .masthead {
+    height:84px;
+    margin:0 6%;
+  }
+  .hakoniwa-shell .brand {
+    font-size:17px;
+  }
+  .hakoniwa-shell .edition {
+    display:none;
+  }
+  .hakoniwa-shell .collection {
+    padding:40px 6% 45px;
+  }
+  .hakoniwa-shell .intro h1 {
+    font-size:35px;
+  }
+  .hakoniwa-shell .intro-copy {
+    font-size:12px;
+  }
+  .hakoniwa-shell .mobile-break {
+    display:block;
+  }
+  .hakoniwa-shell .exhibit-grid {
+    grid-template-columns:1fr;
+    gap:15px;
+  }
+  .hakoniwa-shell .card-copy {
+    padding:18px 2px 22px;
+  }
+  .hakoniwa-shell .museum-footer {
+    gap:18px;
+    line-height:1.8;
+    flex-direction:column;
+    margin:0 6%;
+  }
+  .hakoniwa-shell .viewing-room .masthead {
+    height:76px;
+  }
+  .hakoniwa-shell .back-link {
+    font-size:10px;
+  }
+  .hakoniwa-shell .viewer-heading {
+    margin:26px 6% 20px;
+  }
+  .hakoniwa-shell .viewer-heading h1 {
+    font-size:25px;
+  }
+  .hakoniwa-shell .viewer-heading h1 span {
+    font-size:14px;
+  }
+  .hakoniwa-shell .scene-stage {
+    margin:0;
+    height:56svh;
+    min-height:330px;
+    border-radius:0;
+  }
+  .hakoniwa-shell .viewer-caption {
+    margin:18px 6% 23px;
+    flex-direction:column;
+    gap:12px;
+    font-size:11px;
+  }
+  .hakoniwa-shell .world-nav {
+    justify-content:flex-start;
+    margin:0 6% 25px;
+    gap:4px;
+  }
+  .hakoniwa-shell .world-nav a {
+    font-size:11px;
+    padding:11px 10px;
+    gap:7px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .hakoniwa-shell *,.hakoniwa-shell *::before,.hakoniwa-shell *::after {
+    animation:none!important;
+    transition:none!important;
+  }
+}

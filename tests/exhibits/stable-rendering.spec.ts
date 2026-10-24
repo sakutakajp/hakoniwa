@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 
-test.use({ reducedMotion: 'no-preference', deviceScaleFactor: 3 });
+test.use({ contextOptions: { reducedMotion: 'no-preference' }, deviceScaleFactor: 3 });
 const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama'];
 for (const slug of slugs) {
   test(`${slug}: 操作中の解像度と描画を維持`, async ({ page }, info) => {
@@ -10,7 +10,7 @@ for (const slug of slugs) {
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-    await page.goto(`/exhibits/${slug}/index.html?quality=low&inspect=1`);
+    await page.goto(`/ja/hakoniwa/exhibits/${slug}/index.html?quality=low&inspect=1`);
     await expect(page.locator('#scene')).toHaveAttribute('data-ready', 'true', { timeout: 180000 });
     await page.waitForTimeout(600);
     const initial = await page.evaluate(() => {

@@ -1,0 +1,8 @@
+/* Deliberately overlap layer element/class names to expose CSS leakage. */
+:root { color: rgb(20, 30, 80); background: rgb(238, 244, 255); font-family: Georgia, serif; }
+body { margin: 19px; }
+a { color: rgb(20, 80, 160); text-decoration: underline; }
+.brand { font-family: Georgia, serif; font-size: 29px; letter-spacing: 0; }
+.eyebrow { font-size: 17px; letter-spacing: 0; }
+[data-testid="host-shell"] { max-width: 900px; }
+[data-testid="host-shell"] nav { display: flex; gap: 20px; margin: 24px 0; }

@@ -8,7 +8,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:3000',
     // ソフトウェアGPUで安定して比較できるよう波のアニメーションを止める。
-    reducedMotion: 'reduce',
+    contextOptions: { reducedMotion: 'reduce' },
     launchOptions: { executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
   },
   projects: [

@@ -14,6 +14,12 @@
 
 100個の題材は採用した暫定構成です。個別の操作・演出は検討案として記載しており、現在の実装は5作品の統合資料で確認できます。
 
+## Nuxt Layer
+
+このリポジトリは Nuxt 3/4 の再利用可能な Layer です。展示一覧は **`/ja/hakoniwa/`**、各箱庭は `/ja/hakoniwa/<slug>` にあります。ホストの `/`、アプリシェル、共通スタイル、SEO、配信先設定を置き換えません。
+
+導入方法・URL移行表・ビルド要件・検証方法は [Nuxt Layer の利用ガイド](docs/nuxt-layer.md) を参照してください。
+
 ## 現在の実装
 
 5つの箱庭を統合した展示室です。実装・起動・操作・検証方法は [5作品の統合資料](docs/hakoniwa-integration.md) を参照してください。
@@ -25,4 +31,4 @@ npm ci
 npm run dev
 ```
 
-`http://localhost:3000/` から5つの箱庭を選べます。旧海のURLは島と海の展示ページへ移動します。
+`http://localhost:3000/ja/hakoniwa/` から5つの箱庭を選べます。Layer内の旧海URL `/ja/hakoniwa/ocean-diorama/index.html` は島と海へ案内します。

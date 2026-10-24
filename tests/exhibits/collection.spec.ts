@@ -9,14 +9,14 @@ for (const slug of slugs) {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-    await page.goto(`/hakoniwa/${slug}?quality=low&inspect=1`);
+    await page.goto(`/ja/hakoniwa/${slug}?quality=low&inspect=1`);
     const iframe = page.locator('iframe');
     const frame = page.frameLocator('iframe');
     const canvas = frame.locator('#scene');
     await expect(canvas).toHaveAttribute('data-ready', 'true', { timeout: 180000 });
     await expect(page.locator('.loading-note')).toHaveCount(0);
     await expect(page.locator('iframe')).toHaveCount(1);
-    const scene = page.frames().find(frame => frame.url().includes('/exhibits/'))!;
+    const scene = page.frames().find(frame => frame.url().includes('/ja/hakoniwa/exhibits/'))!;
     const initial = await scene.evaluate(() => (window as any).__scene.view.get());
     await canvas.focus();
     await canvas.press('ArrowRight');
@@ -56,8 +56,8 @@ for (const slug of slugs) {
         (parent as any).__cleanupEvidence = { disposed: document.querySelector('canvas')?.dataset.disposed, lost: (window as any).__scene.renderer.getContext().isContextLost() };
       };
     });
-    await page.locator('.back-link').click();
-    await expect(page).toHaveURL('/');
+    await page.getByRole('link', { name: '展示室にもどる', exact: true }).click();
+    await expect(page).toHaveURL('/ja/hakoniwa/');
     await expect(page.locator('iframe')).toHaveCount(0);
     expect(await page.evaluate(() => (window as any).__cleanupEvidence)).toEqual({ disposed: 'true', lost: true });
     // ホーム画像は検証後にこの実描画から生成するので、初回の404は除く。

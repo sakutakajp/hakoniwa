@@ -1,14 +1,18 @@
+import { fileURLToPath } from 'node:url';
 import { tagStaticHtml } from './scripts/noindex-static';
 import { shouldNoindex, withNoindexMeta } from './shared/indexing';
 
 export default defineNuxtConfig({
-  compatibilityDate: "2026-10-05",
-  css: ["~/assets/css/museum.css", "~/assets/css/asset-browser.css"],
-  devtools: { enabled: false },
-  routeRules: { "/dev/**": { prerender: false }, "/dev/assets": { prerender: true } },
-  // package名からの自動生成に任せず、既存の配信先Worker名に合わせる。
+  $meta: { name: 'hakoniwa' },
+  alias: { '#hakoniwa': fileURLToPath(new URL('.', import.meta.url)) },
+  compatibilityDate: '2026-10-05',
+  modules: [fileURLToPath(new URL('./modules/hakoniwa.ts', import.meta.url))],
+  // Never change the consumer's root route, app shell, global CSS/head, or deploy target.
+  routeRules: {
+    '/ja/hakoniwa/dev/**': { prerender: false },
+    '/ja/hakoniwa/dev/assets': { prerender: true },
+  },
   nitro: {
-    cloudflare: { wrangler: { name: "miraimuseum" } },
     hooks: {
       'prerender:generate': route => {
         if (shouldNoindex(route.route) && route.contents && /<html[\s>]/i.test(route.contents)) route.contents = withNoindexMeta(route.contents);
@@ -17,11 +21,5 @@ export default defineNuxtConfig({
   },
   hooks: {
     'nitro:build:public-assets': async nitro => { await tagStaticHtml(nitro.options.output.publicDir); },
-  },
-  app: {
-    head: {
-      htmlAttrs: { lang: "ja" },
-      title: "箱庭の展示室 | MIRAI MUSEUM",
-    },
   },
 });

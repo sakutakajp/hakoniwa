@@ -1,7 +1,0 @@
-# Cloudflareの静的アセット配信（Workerを通らないレスポンス）も既定noindex。
-/*
-  X-Robots-Tag: noindex, follow
-
-# トップのみ除外。indexを追記するとnoindexと結合されるため、ヘッダーを解除する。
-/
-  ! X-Robots-Tag
