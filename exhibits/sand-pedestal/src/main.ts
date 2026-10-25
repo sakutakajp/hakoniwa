@@ -1,3 +1,4 @@
+import { installPublicControls } from '../../shared/public-controls';
 import { createSceneLifecycle } from '../../shared/lifecycle';
 import * as THREE from 'three';
 import { config } from './config';
@@ -492,8 +493,8 @@ function start(canvas: HTMLCanvasElement) {
   let firstFrame = true;
   // 波・泡・水中の光の動き。動きを減らす設定のときや ?seaTime=秒 を付けたときは止める
   const fixedTime = Number.parseFloat(params.get('seaTime') ?? '');
-  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-  const animate = !!water && !Number.isFinite(fixedTime) && !reduceMotion;
+  let reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  let animate = !!water && !Number.isFinite(fixedTime) && !reduceMotion;
   const fps = lowPower ? config.sea.lowPowerFps : config.sea.fps;
   let seaTime = Number.isFinite(fixedTime) ? fixedTime : 0;
   const draw = () => {
@@ -588,6 +589,11 @@ function start(canvas: HTMLCanvasElement) {
       })
     : null;
   if (controls) canvas.classList.add('is-interactive');
+  if (controls) lifecycle.addCleanup(installPublicControls(window, controls, reduced => {
+    reduceMotion = reduced;
+    animate = !!water && !Number.isFinite(fixedTime) && !reduceMotion;
+    requestRender();
+  }));
   /** 操作の案内（最初に 1 回。触ったことがあれば出さない。?hint=0 で出さない） */
   function showHint() {
     if (!hint || !controls || !ctl.hint || params.get('hint') === '0') return;
@@ -630,8 +636,19 @@ function start(canvas: HTMLCanvasElement) {
   resize();
 
   // GPU 上で生成したテクスチャはコンテキストが失われると消えるので、復帰時は作り直す
-  canvas.addEventListener('webglcontextlost', (event) => event.preventDefault());
-  canvas.addEventListener('webglcontextrestored', () => window.location.reload());
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    canvas.dataset.ready = 'false';
+    canvas.dataset.unavailable = 'true';
+    showMessage('3D表示が中断されました。再試行するか、展示室へ戻ってください。');
+  };
+  const onContextRestored = () => window.location.reload();
+  canvas.addEventListener('webglcontextlost', onContextLost);
+  canvas.addEventListener('webglcontextrestored', onContextRestored);
+  lifecycle.addCleanup(() => {
+    canvas.removeEventListener('webglcontextlost', onContextLost);
+    canvas.removeEventListener('webglcontextrestored', onContextRestored);
+  });
 
   /** 植生の表示・非表示を切り替える（影もその状態で作り直す） */
   const setVegetationVisible = (visible: boolean) => {

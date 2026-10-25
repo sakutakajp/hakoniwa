@@ -11,6 +11,15 @@
   letter-spacing: .08em;
 }
 .hakoniwa-shell {
+  --hakoniwa-surface-page:#faf6ef;
+  --hakoniwa-surface-panel:#fffaf5;
+  --hakoniwa-surface-art:#fae8d4;
+  --hakoniwa-surface-selected:#eadcc9;
+  --hakoniwa-text:#493e33;
+  --hakoniwa-text-muted:#695a4c;
+  --hakoniwa-border:#b8a48e;
+  --hakoniwa-focus:#78502e;
+  --hakoniwa-radius:12px;
   min-height:100vh;
   font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
   color:#493e33;
@@ -96,7 +105,7 @@ body.hakoniwa-page {
   font-size:13px;
   line-height:2.4;
   letter-spacing:.05em;
-  color:#817464;
+  color:var(--hakoniwa-text-muted);
 }
 .hakoniwa-shell .mobile-break {
   display:none;
@@ -136,7 +145,7 @@ body.hakoniwa-page {
 }
 .hakoniwa-shell .card-copy .eyebrow {
   margin:0 0 10px;
-  color:#947d63;
+  color:var(--hakoniwa-text-muted);
   font-size:9px;
 }
 .hakoniwa-shell .card-copy h2 {
@@ -149,11 +158,11 @@ body.hakoniwa-page {
 }
 .hakoniwa-shell .card-copy h2 span {
   font-size:19px;
-  color:#927e68;
+  color:var(--hakoniwa-text-muted);
 }
 .hakoniwa-shell .card-copy>p:last-child {
   font-size:12px;
-  color:#8b7c6c;
+  color:var(--hakoniwa-text-muted);
   margin:0;
 }
 .hakoniwa-shell .museum-footer {
@@ -163,7 +172,7 @@ body.hakoniwa-page {
   display:flex;
   justify-content:space-between;
   font-size:10px;
-  color:#91816e;
+  color:var(--hakoniwa-text-muted);
   letter-spacing:.07em;
 }
 .hakoniwa-shell .back-link {
@@ -193,7 +202,7 @@ body.hakoniwa-page {
 .hakoniwa-shell .viewer-heading h1 span {
   font-size:17px;
   margin-left:8px;
-  color:#91816e;
+  color:var(--hakoniwa-text-muted);
 }
 .hakoniwa-shell .viewer-heading>p {
   font-size:12px;
@@ -247,7 +256,7 @@ body.hakoniwa-page {
   display:flex;
   justify-content:space-between;
   gap:40px;
-  color:#8b7c6c;
+  color:var(--hakoniwa-text-muted);
   font-size:12px;
   line-height:1.9;
 }
@@ -403,3 +412,15 @@ body.hakoniwa-page {
     transition:none!important;
   }
 }
+
+/* Scoped shell primitives; no host reset. */
+.hakoniwa-shell .host-breadcrumb { margin:0 5%; padding:1rem 0 0; font-size:.875rem; color:var(--hakoniwa-text-muted); }
+.hakoniwa-shell .host-breadcrumb a { text-decoration:underline; text-underline-offset:.2em; }
+.hakoniwa-shell button:focus-visible { outline:3px solid var(--hakoniwa-focus); outline-offset:3px; }
+.hakoniwa-shell .intro { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:end; gap:1rem 2rem; }
+.hakoniwa-shell .intro > .eyebrow { grid-column:1/-1; }
+.hakoniwa-shell .intro-copy { position:static; margin:0; font-size:.875rem; }
+.hakoniwa-shell .card-copy .eyebrow { font-size:.75rem; }
+.hakoniwa-shell .card-copy>p:last-child,.hakoniwa-shell .museum-footer { font-size:.875rem; }
+@media(max-width:850px) { .hakoniwa-shell .intro { grid-template-columns:minmax(0,1fr); } }
+@media(prefers-reduced-motion:reduce) { .hakoniwa-shell .exhibit-card img { transition:none; } .hakoniwa-shell .exhibit-card:hover img { transform:none; } }

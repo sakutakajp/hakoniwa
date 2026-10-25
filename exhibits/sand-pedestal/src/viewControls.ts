@@ -57,6 +57,7 @@ export interface ViewControls {
   reset: (opts?: { animate?: boolean }) => void;
   /** 操作の受け付けを止める・再開する */
   setEnabled: (enabled: boolean) => void;
+  setReducedMotion: (value: boolean) => void;
   dispose: () => void;
 }
 
@@ -398,6 +399,12 @@ export function createViewControls(element: HTMLElement, opts: ViewControlsOptio
         pinch = null;
         element.classList.remove('is-dragging');
       }
+    },
+    setReducedMotion: value => {
+      opts.reduceMotion = value;
+      velocity.az = 0;
+      velocity.el = 0;
+      set(target, { animate: false });
     },
     dispose: () => {
       element.removeEventListener('pointerdown', onPointerDown);

@@ -14,7 +14,9 @@
     "build:consumer": "node tests/fixtures/build-consumer.mjs",
     "test:layer": "playwright test --config playwright.layer.config.ts",
     "dev:prepare": "nuxt prepare",
-    "test:layer:http": "playwright test --config playwright.layer.config.ts http.spec.ts"
+    "test:layer:http": "playwright test --config playwright.layer.config.ts http.spec.ts",
+    "test:controls": "node --import tsx --test tests/controls/*.test.ts",
+    "test:viewer": "node tests/controls/viewer-browser.mjs"
   },
   "dependencies": {
     "@nuxt/kit": "3.14.1592",

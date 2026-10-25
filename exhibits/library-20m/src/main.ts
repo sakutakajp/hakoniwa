@@ -1,3 +1,4 @@
+import { installPublicControls } from '../../shared/public-controls';
 import { createSceneLifecycle } from '../../shared/lifecycle';
 import * as THREE from 'three';
 import { config } from './config';
@@ -673,7 +674,7 @@ function start(canvas: HTMLCanvasElement) {
 
   // --- 描画（必要なときだけ描く。見る向きを変えているあいだは毎コマ） ---
   let firstFrame = true;
-  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  let reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   const draw = () => {
     renderer.render(scene, camera);
     canvas.dataset.ready = 'true';
@@ -750,6 +751,10 @@ function start(canvas: HTMLCanvasElement) {
       })
     : null;
   if (controls) canvas.classList.add('is-interactive');
+  if (controls) lifecycle.addCleanup(installPublicControls(window, controls, reduced => {
+    reduceMotion = reduced;
+    requestRender();
+  }));
   function showHint() {
     if (!hint || !controls || !ctl.hint || params.get('hint') === '0') return;
     try {
@@ -785,8 +790,19 @@ function start(canvas: HTMLCanvasElement) {
   window.addEventListener('orientationchange', resize);
   resize();
 
-  canvas.addEventListener('webglcontextlost', (event) => event.preventDefault());
-  canvas.addEventListener('webglcontextrestored', () => window.location.reload());
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    canvas.dataset.ready = 'false';
+    canvas.dataset.unavailable = 'true';
+    showMessage('3D表示が中断されました。再試行するか、展示室へ戻ってください。');
+  };
+  const onContextRestored = () => window.location.reload();
+  canvas.addEventListener('webglcontextlost', onContextLost);
+  canvas.addEventListener('webglcontextrestored', onContextRestored);
+  lifecycle.addCleanup(() => {
+    canvas.removeEventListener('webglcontextlost', onContextLost);
+    canvas.removeEventListener('webglcontextrestored', onContextRestored);
+  });
 
   /** 見る向き：get でいまの向き、set で変える、reset で元の向き、isMoving で動いている途中か */
   const view = {
