@@ -5,7 +5,7 @@ type SceneWindow = Window & { __hakoniwaControls?: PublicSceneControls; __dispos
 const frame = ref<HTMLIFrameElement>();
 const notice = ref<HTMLElement>();
 const dock = ref<HTMLElement>();
-const state = ref<'loading' | 'ready' | 'error'>('loading');
+const state = ref<'loading' | 'slow' | 'ready' | 'error'>('loading');
 const generation = ref(0);
 const paused = ref(false);
 const canControl = ref(false);
@@ -25,7 +25,7 @@ function inspect() {
       state.value = 'ready';
       if (restoreFocus) nextTick(() => dock.value?.querySelector<HTMLButtonElement>('button:not(:disabled)')?.focus());
     } else if (Date.now() - started > 45000) {
-      state.value = 'error';
+      state.value = 'slow';
     }
     canControl.value = state.value === 'ready' && !!api;
     if (api) paused.value = api.paused;
@@ -57,12 +57,12 @@ onBeforeUnmount(() => { clearInterval(poll); dispose(); });
 
 <template>
   <section class="scene-frame" :aria-label="`${title}の作品表示`">
-    <div class="scene-surface" :aria-busy="state === 'loading'">
+    <div class="scene-surface" :aria-busy="state === 'loading' || state === 'slow'">
       <img v-show="state !== 'ready'" class="scene-poster" :src="poster" :alt="`${title}の静止画`" width="900" height="650">
       <iframe :key="generation" ref="frame" :src="source" :title="`${title}の箱庭。ドラッグや矢印キーで回転できます`" :class="{ 'is-unavailable': state !== 'ready' }" :tabindex="state === 'ready' ? 0 : -1" :aria-hidden="state !== 'ready'" @load="inspect" @error="state = 'error'" />
     </div>
     <div v-if="state !== 'ready'" ref="notice" class="scene-notice">
-      <p role="status">{{ state === 'loading' ? '小さな世界を準備しています。静止画を眺めながらお待ちください。' : '3D表示を開始できませんでした。静止画でも作品をご覧いただけます。' }}</p>
+      <p role="status">{{ state === 'loading' ? '小さな世界を準備しています。静止画を眺めながらお待ちください。' : state === 'slow' ? '準備に時間がかかっています。このまま待つか、読み込みをやり直せます。' : '3D表示を開始できませんでした。静止画でも作品をご覧いただけます。' }}</p>
       <div class="scene-actions">
         <button type="button" @click="retry">{{ state === 'loading' ? '読み込みをやり直す' : 'もう一度試す' }}</button>
         <NuxtLink v-if="!source.includes('quality=low')" :to="`/ja/hakoniwa/${slug}?quality=low`">軽量表示で開く</NuxtLink>

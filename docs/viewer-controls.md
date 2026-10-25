@@ -1,6 +1,6 @@
 # Viewer recovery and public camera controls
 
-`SceneFrame.vue` owns iframe readiness, the existing WebP poster, initial failure / context loss / timeout recovery, fresh iframe retries, and accessible camera buttons. Gallery thumbnails remain static; only a selected route loads a scene. URLs and artwork assets are unchanged. The same-origin frame is polled every 500ms; a 45-second readiness timeout offers recovery without claiming a measured percentage. Explicit scene error messages take precedence over ready markers, and late successful readiness may recover. A low-quality link changes the page key so an existing iframe is replaced; an already-low scene uses the retry button.
+`SceneFrame.vue` owns iframe readiness, the existing WebP poster, initial failure / context loss / timeout recovery, fresh iframe retries, and accessible camera buttons. Gallery thumbnails remain static; only a selected route loads a scene. URLs and artwork assets are unchanged. The same-origin frame is polled every 500ms; a 45-second readiness timeout reports that preparation is taking longer and offers recovery without claiming a measured percentage. Timeout remains busy and may still become ready; it is not labeled a fatal WebGL error. Explicit scene error messages take precedence over ready markers, and late successful readiness may recover. A low-quality link changes the page key (quality and inspect are included) so the old scene is disposed and a fresh iframe starts in loading state; an already-low scene uses the retry button.
 
 The scene exposes `window.__hakoniwaControls` through `exhibits/shared/public-controls.ts`. This narrow interface wraps the existing controller's `set` / `reset`; it does not synthesize keyboard events, post unrecognized messages, or expose renderer / inspector internals:
 
@@ -24,6 +24,7 @@ npm run test:controls
 npm run build
 PORT=3147 HOST=127.0.0.1 node .output/server/index.mjs
 BASE_URL=http://127.0.0.1:3147 npm run test:viewer
+BASE_URL=http://127.0.0.1:3147 node tests/controls/recovery-browser.mjs
 ```
 
 Browser checks use local Chromium/SwiftShader, not live production or real-device performance. They cover gallery desktop/mobile widths, no gallery scene requests, injected initialization failure, real-scene retry, camera actions, dynamic reduced-motion and return navigation. Full six-scene visual regression, Safari/Firefox and physical-device GPU coverage remain separate checks.

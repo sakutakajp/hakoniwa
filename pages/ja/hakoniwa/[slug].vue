@@ -2,7 +2,7 @@
 import SceneFrame from '#hakoniwa/components/SceneFrame.vue';
 import MuseumBrand from '#hakoniwa/components/MuseumBrand.vue';
 import { exhibits } from '#hakoniwa/data/exhibits';
-definePageMeta({ key: route => `${route.params.slug}:${route.query.quality ?? "auto"}` });
+definePageMeta({ key: route => `${route.params.slug}:${route.query.quality ?? "auto"}:${route.query.inspect === "1" ? "inspect" : "public"}` });
 const route = useRoute();
 const item = exhibits.find(entry => entry.slug === route.params.slug);
 if (!item) throw createError({ statusCode: 404, statusMessage: 'この箱庭は見つかりません' });
@@ -18,11 +18,13 @@ function closeMenu(event: KeyboardEvent) {
     menu.value.querySelector('summary')?.focus();
   }
 }
-const query = new URLSearchParams({ hint: '0' });
-// 品質の比較・確認に使う値だけを作品へ渡す。
-if (route.query.quality === 'low' || route.query.quality === 'high') query.set('quality', route.query.quality);
-if (route.query.inspect === '1') query.set('inspect', '1');
-const source = `/ja/hakoniwa/exhibits/${item.slug}/index.html${query.size ? `?${query}` : ''}`;
+const source = computed(() => {
+  const query = new URLSearchParams({ hint: '0' });
+  // Only forward explicitly supported display options.
+  if (route.query.quality === 'low' || route.query.quality === 'high') query.set('quality', route.query.quality);
+  if (route.query.inspect === '1') query.set('inspect', '1');
+  return `/ja/hakoniwa/exhibits/${item.slug}/index.html?${query}`;
+});
 onMounted(() => window.addEventListener('keydown', closeMenu));
 onBeforeUnmount(() => window.removeEventListener('keydown', closeMenu));
 </script>
