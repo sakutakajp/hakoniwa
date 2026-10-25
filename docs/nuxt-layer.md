@@ -107,3 +107,8 @@ CHROMIUM_PATH=/usr/bin/chromium npm run test:layer
 `tests/fixtures/consumer` は Nuxt 3.14.1592 / Vue 3.5.13 / Nitro 2.10.4 / Vite 5.4.14 を固定し、別の app/layout/root/about/dev ページ・CSS・静的アセットを持つ消費側アプリです。`npm run build:consumer` は既定でGitHub source archiveと同じ全追跡ファイルのクリーンな `git archive` を作り、Layerの `.nuxt` を一度も生成せずに別プロジェクトをprepare/build/typecheckします。開発テストや設定をnpmの `files` 一覧で隠さないため、リポジトリ配布固有の問題も検出します。`LAYER_PACKAGE_MODE=npm npm run build:consumer` ではnpm tarballのインストール経路も検証できます。消費側の既定ディレクトリは `/tmp/hakoniwa-consumer-nuxt3` です。`LAYER_CONSUMER_DIR` で保存先を変更できます。生成物がインストール済みLayerへ混入しないことも確認します。HTTP/SSR検証はホストとLayerのルート、SEO、生成ファイルとJS依存を検査します。Playwright検証はホスト→一覧→ビューア→別ビューア→履歴→ホストの遷移、CSS/head復元、リクエスト分離、および実際のWebGL作品の操作・破棄を検査します。
 
 既存の各Playwrightスイートも新URLへ更新済みです。GPU/Chromiumが利用できる環境で実行してください。ビルド成功やHTTP検証は、実機Safari・モバイルGPUの見た目/操作の検証を代替しません。
+
+
+### Host language restoration on Nuxt 3
+
+Nuxt 3 renders static `app.head.htmlAttrs.lang` on the server but does not retain that scalar default as a client head entry. After a route temporarily supplies Japanese and its head entry is disposed, the host's original language can otherwise be removed. The module generates a client plugin only when the consumer configured a nonempty string language. It registers that exact value before page heads, allowing route-specific languages to override it and returning to the configured default after their disposal. It neither guesses a locale nor mutates the consumer configuration. No configured language means no fallback plugin. Existing consumer tests cover static English restoration and dynamic French page overrides around a Japanese Layer visit.

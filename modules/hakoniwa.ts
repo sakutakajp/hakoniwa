@@ -1,4 +1,4 @@
-import { defineNuxtModule } from '@nuxt/kit';
+import { addPluginTemplate, defineNuxtModule } from '@nuxt/kit';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,6 +7,22 @@ export default defineNuxtModule({
   meta: { name: 'hakoniwa-exhibits', compatibility: { nuxt: '^3.14.1592 || ^4.0.0' } },
   setup(_options, nuxt) {
     const layerRoot = fileURLToPath(new URL('../', import.meta.url));
+    // Nuxt 3's client head does not retain SSR-only scalar html attributes.
+    // Register only the consumer's configured language as a persistent fallback,
+    // before route heads override it. Do not infer a locale or alter app.head.
+    const hostLanguage = nuxt.options.app.head.htmlAttrs?.lang;
+    if (typeof hostLanguage === 'string' && hostLanguage.length > 0) {
+      addPluginTemplate({
+        filename: 'hakoniwa-host-language.client.mjs',
+        getContents: () => `import { defineNuxtPlugin, useHead } from '#imports';
+export default defineNuxtPlugin({
+  name: 'hakoniwa-host-language',
+  dependsOn: ['nuxt:head'],
+  setup() { useHead({ htmlAttrs: { lang: ${JSON.stringify(hostLanguage)} } }); }
+});`,
+      });
+    }
+
     // GitHub archives include development tests unlike an npm package. Do not
     // pull those tests into the consuming app's typecheck through layer scanning.
     nuxt.hook('prepare:types', ({ tsConfig }) => {

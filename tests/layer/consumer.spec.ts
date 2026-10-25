@@ -205,3 +205,16 @@ test('real 3D is requested only after opening a viewer and is disposed on exit',
   expect(await page.evaluate(() => (window as any).__layerCleanup)).toEqual({ disposed: 'true', contextLost: true });
   expect(errors).toEqual([]);
 });
+
+
+test('dynamic host language overrides the configured fallback before and after a layer visit', async ({ page }) => {
+  await page.goto('/localized');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+  await page.getByRole('link', { name: 'Hakoniwa collection', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+  await page.goBack();
+  await expect(page.getByTestId('host-shell')).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+  await page.getByRole('link', { name: 'Home', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
