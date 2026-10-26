@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const collection = '/ja/hakoniwa/';
-const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama'];
+const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama', 'datacenter-diorama'];
 const heavyAsset = /\/ja\/hakoniwa\/exhibits\/|\/(?:three|three\.module)[.-]/i;
 
 async function hostStyles(page: Page) {
@@ -70,7 +70,7 @@ test('collection has namespaced thumbnails and links without downloading 3D', as
   expect(response?.status()).toBe(200);
   expect(response?.headers()['x-robots-tag']).toBeUndefined();
   await expect(page.getByTestId('host-shell')).toHaveCount(0);
-  await expect(page.locator('.exhibit-card')).toHaveCount(5);
+  await expect(page.locator('.exhibit-card')).toHaveCount(6);
   await expect(page.locator('iframe, canvas')).toHaveCount(0);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
   await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
@@ -217,4 +217,23 @@ test('dynamic host language overrides the configured fallback before and after a
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
   await page.getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
+
+
+test('datacenter navigation restores consumer styles and history', async ({ page }) => {
+  await mockExhibits(page);
+  await page.goto('/');
+  const original = await hostStyles(page);
+  await page.getByRole('link', { name: 'Hakoniwa collection', exact: true }).click();
+  await page.locator('a.exhibit-card[href="/ja/hakoniwa/datacenter-diorama"]').click();
+  await expect(page.locator('iframe')).toHaveAttribute('src', /datacenter-diorama/);
+  await expect(page.locator('.camera-controls')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('.exhibit-card')).toHaveCount(6);
+  await page.goBack();
+  await expect(page.getByTestId('host-shell')).toBeVisible();
+  expect(await hostStyles(page)).toEqual(original);
+  await expect(page.locator('iframe')).toHaveCount(0);
+  await page.goForward();
+  await expect(page.locator('.exhibit-card')).toHaveCount(6);
 });

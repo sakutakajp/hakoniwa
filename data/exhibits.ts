@@ -4,4 +4,5 @@ export const exhibits = [
   { slug: 'library-diorama', number: '03', title: '図書館', subtitle: '物語が眠る、光の部屋。', category: 'CULTURE', description: '二層の本棚、らせん階段、窓から差し込む光。机の上の本や地球儀に近づいて、静かな図書館を探検しましょう。' },
   { slug: 'dino-diorama', number: '04', title: 'ジュラ紀の川辺', subtitle: '太古の森を、水がめぐる。', category: 'DEEP TIME', description: 'アラウカリアが茂る森と、三段の滝。川の断面をのぞきながら、恐竜たちが生きた時代の風景を想像してみましょう。' },
   { slug: 'electric-town-diorama', number: '05', title: '電気街', subtitle: '夕暮れに灯る、小さな街。', category: 'CITY', description: '色とりどりの架空のお店、重なる看板、光を映す濡れた路面。夕暮れの交差点には、小さな発見が詰まっています。' },
+  { slug: 'datacenter-diorama', number: '06', title: 'データセンター', subtitle: '情報を支える、小さなサーバー室。', category: 'TECHNOLOGY', description: '4列に並ぶ20台のサーバーラック、空調機、頭上と床下をめぐる配線。二重床の断面から、普段は見えない設備のつながりを眺めてみましょう。' },
 ] as const;

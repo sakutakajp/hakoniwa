@@ -6,7 +6,7 @@ import { cpSync, mkdirSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const names = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama', 'library-20m'];
+const names = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama', 'library-20m', 'datacenter-diorama'];
 
 export function createExhibitsConfig(outDir = resolve(root, '../public/ja/hakoniwa/exhibits')) {
   return defineConfig({

@@ -4,7 +4,7 @@ import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const base = '/ja/hakoniwa';
-const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama'];
+const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama', 'datacenter-diorama'];
 const output = resolve(process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt3'), '.output/public');
 const headOf = (html: string) => html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
 

@@ -17,7 +17,7 @@ try {
     page.on('request', request => { if (request.url().includes('/exhibits/')) sceneRequests.push(request.url()); });
     await page.goto(`${base}/ja/hakoniwa/`);
     await page.locator('.exhibit-card').first().waitFor();
-    assert.equal(await page.locator('.exhibit-card').count(), 5);
+    assert.equal(await page.locator('.exhibit-card').count(), 6);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     assert.equal(sceneRequests.length, 0);
     await page.screenshot({ path:`${output}/collection-${viewport.width}.png` });

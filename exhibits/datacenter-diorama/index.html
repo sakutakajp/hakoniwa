@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#fae8d4" />
+    <link rel="icon" href="data:," />
+    <title>データセンターの箱庭</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <canvas id="scene" tabindex="0" role="img" aria-label="データセンターの箱庭。4列のサーバーラック、空調機、頭上の配線ラック。前面と右側の二重床は切り開かれ、青と黄色のケーブルと支柱が見える。ドラッグで回転、ピンチで拡大、0キーで元に戻す。"></canvas>
+    <p id="scene-message" class="scene-message" role="status" hidden></p>
+    <p id="scene-hint" class="scene-hint" aria-hidden="true" hidden></p>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
