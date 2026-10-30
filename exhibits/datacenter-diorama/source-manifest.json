@@ -1,0 +1,24 @@
+{
+  "project": "appgprj_6ad38f4230a48191b6a580427ce96136",
+  "commit": "48d053390fb2ee5c866c502fe65c3c1aeb799dce",
+  "files": {
+    "index.html": "ecaced9373a72b26ce539ed2e5817dc6253c11468179d9ec1cd30d71d4365203",
+    "package.json": "9374932b2428314e58a70068d47bf81f2aa90132e326650bd1017094e29b36ba",
+    "src/bakedLighting.ts": "afbc3c4d27c6ecf1a9c720b4e789ddd44e0ea351e4f7fb5555f622bf465c695c",
+    "src/config.ts": "e9508712f219c96f2b122429cc8bba0ba06b145aeb4010c37e74c415dadb19bf",
+    "src/datacenter.ts": "b37383723bab7037e40d1a616d96d7eba4dd4a149f34c4180625cef549ec0e4f",
+    "src/floor.ts": "de75aada11e71758786a2c325a0269868cbb988922fabd7de249ca3bd24dfe7d",
+    "src/framing.ts": "1551a18735eeee406a66029539d56f9aa0dcfeae4db5b836083706a97984298a",
+    "src/libraryMaterials.ts": "a2fc5a529aa4ea230f577ae35f4c28da58119bbe73981f9a7b45ba360671a2da",
+    "src/lightBaker.ts": "14220e4a73ce5f6ddf09536eb989548b75a42dde6d9950684118e345496e364b",
+    "src/main.ts": "eaea99c7e6958609b3ff1655246d51d47d47dc40e356a47f082170aa245e6a86",
+    "src/meshBuilder.ts": "d86fdf6c989ad8d3470847f72c81b2ae5ead08104a47af0032daf3569f3b96a5",
+    "src/pedestal.ts": "25968962fe74e8ba1dd98c6c345f0f5a39f5099243208360fb3ffa5b1784600b",
+    "src/room/shape.ts": "d972fb47f57b9c6488eb86431390937759ce1e206e0d7e6dbad2d1591b183245",
+    "src/style.css": "1fd6cd51ecbeb00562ca96fc951ae8c13d2a9b3ab48b2a9e47217abdb7da64aa",
+    "src/toneMapping.ts": "b02a84fc092172af029133ea5b4c306ed654cda55cb4c3389441729393cacc51",
+    "src/viewControls.ts": "be7b14d0bd836b6c8d0371e329ecc18b6969dea9ba072b94494116b4af7aa397",
+    "tsconfig.json": "6fce50e1fb3b2731833475ba5a5e0fb73e3074ad8e95bc990a54ca1f1c0c3a1d",
+    "vite.config.ts": "43590b472538a82211dd3fec2c568877a75f92a379021c3997da813250a6bb7f"
+  }
+}

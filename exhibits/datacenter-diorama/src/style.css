@@ -1,0 +1,124 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* 初回描画前・WebGL非対応時にも同じ色味に見えるよう、床色に近い背景を敷いておく */
+  background: #fae8d4;
+  color: #6b4f3a;
+  overscroll-behavior: none;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  /* 描画の準備ができたら、背景から静かに浮かび上がらせる */
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#scene[data-ready='true'] {
+  opacity: 1;
+}
+
+/* 見る向きを変えられるとき：ドラッグできることをカーソルで示し、ブラウザのスクロールや拡大を止める */
+#scene.is-interactive {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#scene.is-interactive.is-dragging {
+  cursor: grabbing;
+}
+
+/* キーボードで操作するときだけ、画面の内側に控えめな枠を出す */
+#scene:focus-visible {
+  outline: 2px solid #6b4f3a;
+  outline-offset: -6px;
+}
+
+/* 最初に一度だけ出す操作の案内（触るか、しばらくすると消える） */
+/* 左右いっぱいの幅の中で中央に置く（幅は文字に合わせる。狭い画面だけ折り返す） */
+.scene-hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  transform: translateY(6px);
+  width: fit-content;
+  max-width: calc(100% - 32px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255, 250, 243, 0.78);
+  box-shadow: 0 1px 6px rgba(107, 79, 58, 0.12);
+  color: #6b4f3a;
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', system-ui, sans-serif;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.scene-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scene-hint[hidden] {
+  display: none;
+}
+
+@media (max-width: 420px) {
+  .scene-hint {
+    font-size: 11.5px;
+    padding: 6px 12px;
+    letter-spacing: 0.02em;
+    white-space: normal;
+    border-radius: 14px;
+  }
+}
+
+/* 3D 表示を始められなかったときだけ出す案内 */
+.scene-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(30em, calc(100% - 32px));
+  margin: 0;
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.scene-message[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scene,
+  .scene-hint {
+    transition: none;
+  }
+}
