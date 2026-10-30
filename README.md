@@ -26,6 +26,8 @@
 
 ## 起動
 
+開発・検証は Nuxt 4.6.3、Node 24（24.15.0以降）を推奨します。正確なNode対応範囲は `package.json` の `engines` を参照してください。
+
 ```sh
 npm ci
 npm run dev

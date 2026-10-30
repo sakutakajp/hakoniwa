@@ -1,16 +1,16 @@
 # Independent consumer fixture
 
-This fixture pins the existing consumer baseline rather than upgrading it:
+This fixture pins the Nuxt 4 host baseline:
 
-- Nuxt 3.14.1592
-- Vue 3.5.13 / Vue Router 4.4.5
-- Nitro 2.10.4
-- Vite 5.4.14
-- Rollup 4.34.9 / Nuxi 3.22.3 / Unstorage 1.15.0
+- Nuxt 4.6.3
+- Vue 3.5.44 / Vue Router 5.4.0
+- Node `^22.22.3 || ^24.15.0 || >=26.0.0` (Node 24 recommended)
 
-`@rollup/plugin-replace` is locked to 6.0.2: 6.0.3 no longer replaces the
-`import.meta.` prefix expected by Nitro 2.10.4, breaking every static asset's
-Node-server path. This is a compatibility lock, not an app-framework upgrade.
+Nitro, the Nuxt Vite builder, Rollup and CLI are resolved by Nuxt and frozen in
+package-lock.json. Old Nuxt 3 Nitro/Rollup/Unstorage overrides are intentionally
+removed rather than forcing obsolete transitive packages into Nuxt 4.
+The Layer's separate iframe exhibit build uses Vite 7.3.7; Nuxt's app builder
+uses its own compatible Vite version.
 
 Its own app, default layout, CSS, metadata, `/`, `/about`, `/dev/assets`,
 `/plain.html`, and `/exhibits/host.txt` must survive extending Hakoniwa.
@@ -40,7 +40,7 @@ archive-specific tsconfig/test-boundary failures that an npm tarball can hide.
 
 `LAYER_PACKAGE_MODE=npm` retains the separate npm-pack/install validation without
 publishing anything. Both modes use a temporary consumer project, defaulting to
-`$TMPDIR/hakoniwa-consumer-nuxt3` (usually `/tmp/hakoniwa-consumer-nuxt3`). Set
+`$TMPDIR/hakoniwa-consumer-nuxt4` (usually `/tmp/hakoniwa-consumer-nuxt4`). Set
 `LAYER_CONSUMER_DIR` consistently for all commands to use another directory outside
 the layer checkout. An ownership marker prevents overwriting an unrelated folder.
 

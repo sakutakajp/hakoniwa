@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 
 const base = '/ja/hakoniwa';
 const slugs = ['sand-pedestal', 'nyc-diorama', 'library-diorama', 'dino-diorama', 'electric-town-diorama'];
-const output = resolve(process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt3'), '.output/public');
+const output = resolve(process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt4'), '.output/public');
 const headOf = (html: string) => html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
 
 // These checks deliberately do not request the page/browser fixture. They can

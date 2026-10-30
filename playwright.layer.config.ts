@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const port = Number(process.env.LAYER_PORT || 3025);
-const consumerDir = process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt3');
+const consumerDir = process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt4');
 const baseURL = process.env.LAYER_URL || `http://127.0.0.1:${port}`;
 
 export default defineConfig({

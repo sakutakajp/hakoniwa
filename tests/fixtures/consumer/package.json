@@ -7,21 +7,16 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "nuxt": "3.14.1592",
-    "vue": "3.5.13",
-    "vue-router": "4.4.5"
+    "nuxt": "4.6.3",
+    "vue": "3.5.44",
+    "vue-router": "5.4.0"
   },
   "devDependencies": {
     "typescript": "5.9.3",
     "vue-tsc": "3.2.6",
-    "@types/node": "^24.19.2",
-    "nuxi": "3.22.3"
+    "@types/node": "^24.19.2"
   },
-  "overrides": {
-    "nitropack": "2.10.4",
-    "vite": "5.4.14",
-    "@rollup/plugin-replace": "6.0.2",
-    "rollup": "4.34.9",
-    "unstorage": "1.15.0"
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   }
 }

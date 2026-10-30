@@ -19,24 +19,23 @@
     "test:viewer": "node tests/controls/viewer-browser.mjs"
   },
   "dependencies": {
-    "@nuxt/kit": "3.14.1592",
+    "@nuxt/kit": "4.6.3",
     "three": "0.186.1",
-    "vite": "5.4.14",
+    "vite": "7.3.7",
     "@types/three": "0.186.0"
   },
   "engines": {
-    "node": ">=20.19.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
     "typescript": "5.9.3",
     "vue-tsc": "3.2.6",
     "@playwright/test": "1.58.2",
-    "nuxt": "3.14.1592",
-    "vue": "3.5.13",
-    "vue-router": "4.4.5",
-    "tsx": "4.20.5",
-    "nuxi": "3.22.3"
+    "nuxt": "4.6.3",
+    "vue": "3.5.44",
+    "vue-router": "5.4.0",
+    "tsx": "4.20.5"
   },
   "version": "0.1.0",
   "description": "Reusable Nuxt layer for the Hakoniwa collection at /ja/hakoniwa/",
@@ -65,11 +64,5 @@
   "peerDependencies": {
     "nuxt": "^3.14.1592 || ^4.0.0",
     "vue": "^3.5.13"
-  },
-  "overrides": {
-    "nitropack": "2.10.4",
-    "@rollup/plugin-replace": "6.0.2",
-    "rollup": "4.34.9",
-    "unstorage": "1.15.0"
   }
 }

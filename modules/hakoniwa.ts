@@ -27,7 +27,8 @@ export default defineNuxtPlugin({
     // pull those tests into the consuming app's typecheck through layer scanning.
     nuxt.hook('prepare:types', ({ tsConfig }) => {
       tsConfig.exclude ||= [];
-      tsConfig.exclude.push(resolve(layerRoot, 'tests/**/*'));
+      // Iframe exhibits have their own strict tsconfig and are not Nuxt app code.
+      tsConfig.exclude.push(resolve(layerRoot, 'tests/**/*'), resolve(layerRoot, 'exhibits/**/*'));
     });
     // Installed layers may be read-only. Keep generated files in the consumer's build dir.
     const outDir = resolve(nuxt.options.buildDir, 'hakoniwa-exhibits');
@@ -40,7 +41,7 @@ export default defineNuxtPlugin({
       if (nuxt.options._prepare) return;
       const [{ build }, { createExhibitsConfig }] = await Promise.all([
         import('vite'),
-        import('../exhibits/vite.config'),
+        import('../exhibits/vite.config.ts'),
       ]);
       await build({ ...createExhibitsConfig(outDir), configFile: false });
     });

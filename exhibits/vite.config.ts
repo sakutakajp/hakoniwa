@@ -1,4 +1,4 @@
-import { withNoindexMeta } from '../shared/indexing';
+import { withNoindexMeta } from '../shared/indexing.ts';
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';

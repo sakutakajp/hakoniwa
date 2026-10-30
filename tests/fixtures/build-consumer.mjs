@@ -7,7 +7,7 @@ import { createRequire } from 'node:module';
 
 const source = fileURLToPath(new URL('./consumer/', import.meta.url));
 const layer = fileURLToPath(new URL('../../', import.meta.url));
-const target = resolve(process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt3'));
+const target = resolve(process.env.LAYER_CONSUMER_DIR || join(tmpdir(), 'hakoniwa-consumer-nuxt4'));
 const marker = join(target, '.hakoniwa-consumer-fixture');
 const cache = process.env.npm_config_cache || join(tmpdir(), 'hakoniwa-npm-cache');
 const mode = process.env.LAYER_PACKAGE_MODE || 'source';
@@ -85,15 +85,15 @@ if (mode === 'npm') {
 }
 await assertCleanLayer(installedLayer);
 const requireFromConsumer = createRequire(join(target, 'package.json'));
-for (const [name, expected] of Object.entries({ nuxt: '3.14.1592', vue: '3.5.13', 'vue-router': '4.4.5', nitropack: '2.10.4', vite: '5.4.14' })) {
+for (const [name, expected] of Object.entries({ nuxt: '4.6.3', vue: '3.5.44', 'vue-router': '5.4.0' })) {
   const actual = requireFromConsumer(`${name}/package.json`).version;
   if (actual !== expected) throw new Error(`${name}: expected ${expected}, received ${actual}`);
 }
 // Explicit prepare catches source-archive failures before the production build.
-run(process.execPath, ['node_modules/nuxi/bin/nuxi.mjs', 'prepare'], { cwd: target, env, stdio: 'inherit' });
+run(process.execPath, ['node_modules/@nuxt/cli/bin/nuxi.mjs', 'prepare'], { cwd: target, env, stdio: 'inherit' });
 await assertCleanLayer(installedLayer);
 for (const script of ['build', 'typecheck']) {
   run('npm', ['run', script], { cwd: target, env, stdio: 'inherit' });
 }
 await assertCleanLayer(installedLayer);
-console.log(`Verified ${mode} Nuxt 3 layer: ${archive}\nLayer: ${installedLayer}\nConsumer: ${target}`);
+console.log(`Verified ${mode} Nuxt 4 layer: ${archive}\nLayer: ${installedLayer}\nConsumer: ${target}`);
