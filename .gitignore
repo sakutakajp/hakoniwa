@@ -6,7 +6,7 @@ node_modules/
 .env.*
 !.env.example
 .DS_Store
-public/exhibits/
+public/ja/hakoniwa/exhibits/
 test-results/
 playwright-report/
 

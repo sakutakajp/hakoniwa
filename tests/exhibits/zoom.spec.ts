@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 test('図書館の拡大・リセット・別作品への切替', async ({ page }, testInfo) => {
-  await page.goto('/hakoniwa/library-diorama?quality=low&inspect=1');
+  await page.goto('/ja/hakoniwa/library-diorama?quality=low&inspect=1');
   const frame = page.frameLocator('iframe');
   await expect(frame.locator('#scene')).toHaveAttribute('data-ready', 'true', { timeout: 180000 });
-  const scene = page.frames().find(frame => frame.url().includes('/exhibits/'))!;
+  const scene = page.frames().find(frame => frame.url().includes('/ja/hakoniwa/exhibits/'))!;
   const box = (await page.locator('iframe').boundingBox())!;
   const x = box.x + box.width / 2, y = box.y + box.height / 2;
   if (testInfo.project.name === 'mobile') {
@@ -28,9 +28,10 @@ test('図書館の拡大・リセット・別作品への切替', async ({ page 
     const dispose = (window as any).__disposeScene;
     (window as any).__disposeScene = () => { dispose(); (parent as any).__switchDisposed = (window as any).__scene.renderer.getContext().isContextLost(); };
   });
-  await page.locator('.world-nav a[href="/hakoniwa/nyc-diorama"]').click();
-  await expect(page).toHaveURL('/hakoniwa/nyc-diorama');
+  await page.getByText('操作・箱庭', { exact: true }).click();
+  await page.locator('.viewer-panel nav a[href="/ja/hakoniwa/nyc-diorama"]').click();
+  await expect(page).toHaveURL('/ja/hakoniwa/nyc-diorama');
   expect(await page.evaluate(() => (window as any).__switchDisposed)).toBe(true);
   await expect(page.locator('iframe')).toHaveCount(1);
-  await expect(page.locator('.world-nav [aria-current="page"]')).toContainText('ニューヨーク');
+  await expect(page.locator('.viewer-panel nav [aria-current="page"]')).toContainText('ニューヨーク');
 });

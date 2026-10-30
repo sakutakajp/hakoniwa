@@ -1,5 +1,7 @@
 # 検索登録の対象
 
+> 2026-10-24: Nuxt Layer 化に伴いURLと配信の責務が変わりました。現行の導入・URL・noindex方針は [Nuxt Layer の利用ガイド](nuxt-layer.md) を優先してください。以下は以前の実装記録です。
+
 検索登録の対象はトップ `/` のみ。トップの既存title/canonical設定は変更しない。
 
 - Nuxtのページは `app/app.vue` でトップ以外に `noindex, follow` を設定する。

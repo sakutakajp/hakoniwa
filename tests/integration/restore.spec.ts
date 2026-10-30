@@ -3,7 +3,7 @@ import {mkdirSync} from 'node:fs';
 const evidence=process.env.EVIDENCE_DIR||'test-results/integration';mkdirSync(evidence,{recursive:true});
 for(const kind of ['assets','comparison'])test(`${kind}: 解放後の履歴復元で再初期化する`,async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- const url=kind==='assets'?'/dev/assets/mesh-review':'/library-comparison.html?quality=low';
+ const url=kind==='assets'?'/ja/hakoniwa/dev/assets/mesh-review':'/ja/hakoniwa/library-comparison.html?quality=low';
  await page.goto(url,{waitUntil:'domcontentloaded'});
  const waitReady=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('iframe')].length>0&&[...document.querySelectorAll('iframe')].every(f=>f.contentDocument?.querySelector('canvas[data-ready=true]')&&(f.contentWindow as any).__scene),{},{timeout:240000});if(kind==='assets')await expect(page.locator('select').nth(1)).toBeEnabled();};
  await waitReady();await expect(page.locator('meta[name=robots]')).toHaveAttribute('content','noindex, follow');
@@ -25,8 +25,8 @@ for(const kind of ['assets','comparison'])test(`${kind}: 解放後の履歴復�
  expect(errors).toEqual([]);
 });
 test('トップ・本探し・展示・404のnoindexと公開導線を維持',async({request})=>{
- for(const path of ['/','/play/library-books','/dev/assets','/hakoniwa/library-diorama','/library-comparison.html','/future-unlisted-page']){
-  const r=await request.get(path);const html=await r.text();if(path==='/'){expect(r.status()).toBe(200);expect(html).not.toMatch(/name="robots"[^>]*noindex/);expect(html).not.toContain('/dev/assets');expect(html).not.toContain('/play/library-books');}
-  else{expect(r.status()).toBe(path==='/future-unlisted-page'?404:200);expect(html.includes('name="robots" content="noindex, follow"')||r.headers()['x-robots-tag']==='noindex, follow').toBe(true);}
+ for(const path of ['/ja/hakoniwa/','/ja/hakoniwa/play/library-books','/ja/hakoniwa/dev/assets','/ja/hakoniwa/library-diorama','/ja/hakoniwa/library-comparison.html','/ja/hakoniwa/future-unlisted-page']){
+  const r=await request.get(path);const html=await r.text();if(path==='/ja/hakoniwa/'){expect(r.status()).toBe(200);expect(html).not.toMatch(/name="robots"[^>]*noindex/);expect(html).not.toContain('/ja/hakoniwa/dev/assets');expect(html).not.toContain('/ja/hakoniwa/play/library-books');}
+  else{expect(r.status()).toBe(path==='/ja/hakoniwa/future-unlisted-page'?404:200);expect(html.includes('name="robots" content="noindex, follow"')||r.headers()['x-robots-tag']==='noindex, follow').toBe(true);}
  }
 });

@@ -1,0 +1,1 @@
+This root-level asset belongs to the consumer, not the Hakoniwa layer.

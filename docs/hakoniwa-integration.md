@@ -1,5 +1,7 @@
 # 5作品の箱庭展示
 
+> 2026-10-24: Nuxt Layer 化に伴いURLと配信の責務が変わりました。現行の導入・URL・noindex方針は [Nuxt Layer の利用ガイド](nuxt-layer.md) を優先してください。以下は以前の実装記録です。
+
 2026-10-17。`origin/work` の `ed6219f` を基点とし、ユーザー提供の `origin/hakoniwa` (`8b4dd06`) の `hakoniwa-series-code.zip` を取り込む。ZIPは974,936 bytes。SHA-256: `3f3901bc1fe69b59f3cdde6dbb28a49c1a8d1d25f97c25a0f6ad9aadb4acb924`。対象は5作品のみ。既存の海はユーザーの最新方針により置換し、旧URLは島と海へ案内する。100作品の構成案や他の企画資料は変更しない。
 
 ## 構成

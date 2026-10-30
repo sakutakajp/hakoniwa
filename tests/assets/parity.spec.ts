@@ -6,7 +6,7 @@ for(const slug of ['library-diorama','library-20m','nyc-diorama'])test(`${slug}:
  test.skip(!process.env.BASELINE_URL,'変更前のプレビューURLをBASELINE_URLに指定してください');
  const snapshots=[];
  for(const [label,base] of [['before',process.env.BASELINE_URL],['after',process.env.MUSEUM_URL||'http://127.0.0.1:3022']]){
-  await page.goto(`${base}/exhibits/${slug}/index.html?inspect=1&hint=0&quality=low`);
+  await page.goto(`${base}/ja/hakoniwa/exhibits/${slug}/index.html?inspect=1&hint=0&quality=low`);
   await page.waitForFunction(()=>document.querySelector('canvas[data-ready=true]')&&(window as any).__scene,null,{timeout:240000});
   snapshots.push(await page.evaluate(()=>{const scene=(window as any).__scene.scene,out:any[]=[];scene.updateMatrixWorld(true);const hash=(a:any)=>{if(!a)return null;let h=2166136261;const bytes=new Uint8Array(a.buffer,a.byteOffset,a.byteLength);for(const x of bytes)h=Math.imul(h^x,16777619);return h>>>0;};scene.traverse((o:any)=>{if(o.isMesh)out.push({name:o.name,matrix:o.matrixWorld.elements,attributes:Object.fromEntries(Object.entries(o.geometry.attributes).map(([k,v]:any)=>[k,hash(v.array)])),index:hash(o.geometry.index?.array),instance:hash(o.instanceMatrix?.array),colors:hash(o.instanceColor?.array)})});return out;}));
   if(slug==='library-diorama')await page.screenshot({path:`${evidence}/normal-library-${label}.png`});

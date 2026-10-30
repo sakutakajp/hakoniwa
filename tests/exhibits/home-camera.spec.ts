@@ -13,7 +13,7 @@ for (const slug of slugs) {
   test(`${slug}: 共通ホーム・操作後のリサイズ・リセット`, async ({ page }, info) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(`/exhibits/${slug}/index.html?quality=low&inspect=1&hint=0`);
+    await page.goto(`/ja/hakoniwa/exhibits/${slug}/index.html?quality=low&inspect=1&hint=0`);
     const canvas = page.locator('#scene');
     await expect(canvas).toHaveAttribute('data-ready', 'true', { timeout: 180000 });
     const snapshot = () => page.evaluate(() => {

@@ -1,3 +1,4 @@
+import { installPublicControls } from '../../shared/public-controls';
 import { createSceneLifecycle } from '../../shared/lifecycle';
 import * as THREE from 'three';
 import { config } from './config';
@@ -368,8 +369,8 @@ function start(canvas: HTMLCanvasElement) {
   let firstFrame = true;
   // 水の動き。動きを減らす設定のときや ?waterTime=秒 を付けたときは止める
   const fixedTime = Number.parseFloat(params.get('waterTime') ?? '');
-  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-  const animate = !Number.isFinite(fixedTime) && !reduceMotion;
+  let reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  let animate = !Number.isFinite(fixedTime) && !reduceMotion;
   const fps = lowPower ? config.water.lowPowerFps : config.water.fps;
   let waterTime = Number.isFinite(fixedTime) ? fixedTime : 3;
   const draw = () => {
@@ -464,6 +465,11 @@ function start(canvas: HTMLCanvasElement) {
       })
     : null;
   if (controls) canvas.classList.add('is-interactive');
+  if (controls) lifecycle.addCleanup(installPublicControls(window, controls, reduced => {
+    reduceMotion = reduced;
+    animate = !Number.isFinite(fixedTime) && !reduceMotion;
+    requestRender();
+  }));
   function showHint() {
     if (!hint || !controls || !ctl.hint || params.get('hint') === '0') return;
     try {
@@ -506,8 +512,19 @@ function start(canvas: HTMLCanvasElement) {
   window.addEventListener('orientationchange', resize);
   resize();
 
-  canvas.addEventListener('webglcontextlost', (event) => event.preventDefault());
-  canvas.addEventListener('webglcontextrestored', () => window.location.reload());
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    canvas.dataset.ready = 'false';
+    canvas.dataset.unavailable = 'true';
+    showMessage('3D表示が中断されました。再試行するか、展示室へ戻ってください。');
+  };
+  const onContextRestored = () => window.location.reload();
+  canvas.addEventListener('webglcontextlost', onContextLost);
+  canvas.addEventListener('webglcontextrestored', onContextRestored);
+  lifecycle.addCleanup(() => {
+    canvas.removeEventListener('webglcontextlost', onContextLost);
+    canvas.removeEventListener('webglcontextrestored', onContextRestored);
+  });
 
   const refreshFraming = () => {
     extraPoints = contentPoints();

@@ -1,7 +1,8 @@
-/** 公開トップ以外は、新しいルートも含めて検索登録しない。 */
+/** このLayerの公開一覧以外だけをnoindexにし、ホストのSEOには触れない。 */
 export const ROBOTS_NOINDEX = 'noindex, follow';
 export function shouldNoindex(path: string): boolean {
-  return path.split('?')[0] !== '/';
+  const pathname = path.split(/[?#]/)[0]!.replace(/\/+$/, '');
+  return pathname.startsWith('/ja/hakoniwa/') && pathname !== '/ja/hakoniwa/index.html';
 }
 export function withNoindexMeta(html: string): string {
   // 個別のindex指定と衝突させず、検索エンジン別の指定も一本化する。

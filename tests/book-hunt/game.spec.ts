@@ -3,10 +3,10 @@ import { mkdirSync } from 'node:fs';
 const evidence=process.env.EVIDENCE_DIR||'test-results/book-hunt';mkdirSync(evidence,{recursive:true});
 test('開始・誤答・正答・クリア・再挑戦・鑑賞復帰・タブ復帰・解放',async({page,context},info)=>{
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
-  const response=await page.goto('/play/library-books',{waitUntil:'domcontentloaded'});expect(response?.status()).toBe(200);
+  const response=await page.goto('/ja/hakoniwa/play/library-books',{waitUntil:'domcontentloaded'});expect(response?.status()).toBe(200);
   await expect(page.locator('meta[name=robots]')).toHaveAttribute('content','noindex, follow');
   const start=page.getByRole('button',{name:'本を探す'});await expect(start).toBeEnabled({timeout:180000});
-  const frame=page.frames().find(f=>f.url().includes('/exhibits/'))!;expect(frame.url()).toContain('/library-diorama/');
+  const frame=page.frames().find(f=>f.url().includes('/ja/hakoniwa/exhibits/'))!;expect(frame.url()).toContain('/library-diorama/');
   await page.screenshot({path:`${evidence}/${info.project.name}-view.png`,fullPage:true});
   const tap=async(selector:string)=>{const locator=page.locator(selector);if(info.project.name.includes('mobile'))await locator.tap();else await locator.click();};
   await start.click();await expect(page.locator('[data-book]')).toHaveCount(3);

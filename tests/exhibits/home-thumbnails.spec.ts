@@ -8,7 +8,7 @@ test.use({ baseURL: process.env.PREVIEW_URL || 'http://127.0.0.1:3000' });
 test('トップの5作品は同じ表示枠で画像を切り取らずに表示する', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/ja/hakoniwa/');
   const cards = page.locator('.exhibit-card');
   await expect(cards).toHaveCount(5);
   const sizes = [];
@@ -24,7 +24,7 @@ test('トップの5作品は同じ表示枠で画像を切り取らずに表示�
     expect(dimensions.naturalHeight).toBe(650);
     expect(dimensions.width / dimensions.height).toBeCloseTo(900 / 650, 2);
     sizes.push(dimensions.width);
-    await expect(card).toHaveAttribute('href', /^\/hakoniwa\//);
+    await expect(card).toHaveAttribute('href', /^\/ja\/hakoniwa\//);
   }
   expect(Math.max(...sizes) - Math.min(...sizes)).toBeLessThan(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

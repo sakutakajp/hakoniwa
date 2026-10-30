@@ -17,7 +17,7 @@ npm run build:exhibits
 # public/ をローカルで配信（またはNuxtを起動）
 python3 -m http.server 3010 --bind 127.0.0.1 --directory public
 # 別ターミナル
-node scripts/capture-hakoniwa-thumbnails.mjs http://127.0.0.1:3010
+node --import tsx scripts/capture-hakoniwa-thumbnails.mjs http://127.0.0.1:3010
 python3 scripts/make-hakoniwa-thumbnails.py test-results/home-thumbnails
 ```
 

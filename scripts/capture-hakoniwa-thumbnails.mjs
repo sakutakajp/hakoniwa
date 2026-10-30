@@ -1,12 +1,12 @@
 /** 共通ホームから一覧用画像を撮影。先に npm run build:exhibits を実行して配信する。
- * node scripts/capture-hakoniwa-thumbnails.mjs http://127.0.0.1:3000 [保存先]
+ * node --import tsx scripts/capture-hakoniwa-thumbnails.mjs http://127.0.0.1:3000 [保存先]
  * 台座の投影幅・下端をニューヨークと一致させる。モデルや詳細ページは変更しない。
  */
 import { chromium } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { exhibits } from '../app/data/exhibits.ts';
+import { exhibits } from '../data/exhibits.ts';
 import { homeCamera } from '../exhibits/shared/home-camera.ts';
 
 const baseURL = process.argv[2] || 'http://127.0.0.1:3000';
@@ -26,7 +26,7 @@ try {
     const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(new URL(`/exhibits/${slug}/index.html?inspect=1&quality=low&hint=0`, baseURL).href);
+    await page.goto(new URL(`/ja/hakoniwa/exhibits/${slug}/index.html?inspect=1&quality=low&hint=0`, baseURL).href);
     await page.locator('#scene[data-ready="true"]').waitFor({ timeout: 180000 });
     const bounds = () => page.evaluate(() => {
       const { scene, camera } = window.__scene;
